@@ -1,8 +1,10 @@
 
 import Navbar from "@/components/Navbar";
 import AuthForm from "@/components/AuthForm";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 const Signup = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

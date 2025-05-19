@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface Claim {
   id: string;
@@ -18,6 +19,8 @@ interface RecentClaimsTableProps {
 }
 
 export function RecentClaimsTable({ claims }: RecentClaimsTableProps) {
+  const { t } = useTranslation();
+  
   const getStatusBadge = (status: Claim["status"]) => {
     const styles = {
       pending: "bg-amber-100 text-amber-800 hover:bg-amber-100",
@@ -27,10 +30,10 @@ export function RecentClaimsTable({ claims }: RecentClaimsTableProps) {
     };
     
     const labels = {
-      pending: "Pending",
-      approved: "Approved",
-      denied: "Denied",
-      additional_info: "Info Required",
+      pending: t("status.pending"),
+      approved: t("status.approved"),
+      denied: t("status.denied"),
+      additional_info: t("status.info_required"),
     };
     
     return (
@@ -45,12 +48,12 @@ export function RecentClaimsTable({ claims }: RecentClaimsTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Patient</TableHead>
-            <TableHead>Service</TableHead>
-            <TableHead>Payor</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>{t("table.patient")}</TableHead>
+            <TableHead>{t("table.service")}</TableHead>
+            <TableHead>{t("table.payor")}</TableHead>
+            <TableHead>{t("table.date")}</TableHead>
+            <TableHead>{t("table.status")}</TableHead>
+            <TableHead className="text-right">{t("table.action")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -68,7 +71,7 @@ export function RecentClaimsTable({ claims }: RecentClaimsTableProps) {
                   asChild
                   className="hover:bg-gray-100"
                 >
-                  <Link to={`/track-claims/${claim.id}`}>View</Link>
+                  <Link to={`/track-claims/${claim.id}`}>{t("table.view")}</Link>
                 </Button>
               </TableCell>
             </TableRow>

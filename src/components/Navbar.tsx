@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu } from "lucide-react";
+import { useTranslation } from "@/contexts/TranslationContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar({ isLoggedIn = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t } = useTranslation();
   
   return (
     <header className="w-full bg-white border-b border-gray-100 py-4 px-6 md:px-8">
@@ -13,47 +16,50 @@ export default function Navbar({ isLoggedIn = false }) {
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center">
             <span className="text-portal-purple text-2xl font-bold">Unified</span>
-            <span className="text-portal-teal text-2xl font-bold">Payor</span>
+            <span className="text-portal-teal text-2xl font-bold">{t("app.name")}</span>
           </Link>
           
           {isLoggedIn && (
             <nav className="hidden md:flex ml-8 space-x-6">
               <Link to="/dashboard" className="text-gray-700 hover:text-portal-purple transition-colors">
-                Dashboard
+                {t("nav.dashboard")}
               </Link>
               <Link to="/submit-claim" className="text-gray-700 hover:text-portal-purple transition-colors">
-                Submit Prior Auth
+                {t("nav.submit")}
               </Link>
               <Link to="/track-claims" className="text-gray-700 hover:text-portal-purple transition-colors">
-                Track Claims
+                {t("nav.track")}
               </Link>
             </nav>
           )}
         </div>
         
         <div className="hidden md:flex items-center space-x-4">
+          <LanguageSwitcher />
+          
           {!isLoggedIn ? (
             <>
               <Link to="/login">
                 <Button variant="ghost" className="text-portal-purple hover:text-portal-purple/90 hover:bg-gray-100">
-                  Log in
+                  {t("app.login")}
                 </Button>
               </Link>
               <Link to="/signup">
                 <Button className="bg-portal-purple hover:bg-portal-purple/90">
-                  Register
+                  {t("app.register")}
                 </Button>
               </Link>
             </>
           ) : (
             <Button className="bg-portal-purple hover:bg-portal-purple/90" onClick={() => console.log("Log out")}>
-              Log out
+              {t("app.logout")}
             </Button>
           )}
         </div>
         
         {/* Mobile menu button */}
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center space-x-2">
+          <LanguageSwitcher />
           <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Menu className="h-5 w-5" />
           </Button>
@@ -67,28 +73,28 @@ export default function Navbar({ isLoggedIn = false }) {
             {isLoggedIn ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-portal-purple transition-colors">
-                  Dashboard
+                  {t("nav.dashboard")}
                 </Link>
                 <Link to="/submit-claim" className="text-gray-700 hover:text-portal-purple transition-colors">
-                  Submit Prior Auth
+                  {t("nav.submit")}
                 </Link>
                 <Link to="/track-claims" className="text-gray-700 hover:text-portal-purple transition-colors">
-                  Track Claims
+                  {t("nav.track")}
                 </Link>
                 <Button 
                   className="bg-portal-purple hover:bg-portal-purple/90 w-full mt-2" 
                   onClick={() => console.log("Log out")}
                 >
-                  Log out
+                  {t("app.logout")}
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login" className="text-gray-700 hover:text-portal-purple transition-colors">
-                  Log in
+                  {t("app.login")}
                 </Link>
                 <Link to="/signup" className="text-gray-700 hover:text-portal-purple transition-colors">
-                  Register
+                  {t("app.register")}
                 </Link>
               </>
             )}

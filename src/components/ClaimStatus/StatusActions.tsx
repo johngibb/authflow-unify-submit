@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Phone, MessageCircle, Printer, Copy } from "lucide-react";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface ClaimDataProps {
   id: string;
@@ -13,6 +14,7 @@ interface ClaimDataProps {
 
 export function StatusActions({ id, status }: ClaimDataProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
@@ -20,8 +22,8 @@ export function StatusActions({ id, status }: ClaimDataProps) {
     if (message.trim() === "") return;
     
     toast({
-      title: "Message sent",
-      description: "Your message has been sent to the insurance representative",
+      title: t("toast.message"),
+      description: t("toast.message.desc"),
     });
     
     setMessage("");
@@ -31,8 +33,8 @@ export function StatusActions({ id, status }: ClaimDataProps) {
   const copyReferenceNumber = () => {
     navigator.clipboard.writeText(id);
     toast({
-      title: "Reference ID Copied",
-      description: `Claim reference ID ${id} copied to clipboard`,
+      title: t("toast.copy"),
+      description: t("toast.copy.desc").replace("{id}", id),
     });
   };
   
@@ -42,32 +44,32 @@ export function StatusActions({ id, status }: ClaimDataProps) {
         {status === "additional_info" && (
           <Button className="flex items-center gap-2 bg-portal-purple hover:bg-portal-purple/90">
             <Upload className="h-4 w-4" />
-            <span>Upload Documents</span>
+            <span>{t("claim.upload")}</span>
           </Button>
         )}
         
         <Button variant="outline" className="flex items-center gap-2">
           <Phone className="h-4 w-4" />
-          <span>Call Representative</span>
+          <span>{t("claim.call")}</span>
         </Button>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" className="flex items-center gap-2">
               <MessageCircle className="h-4 w-4" />
-              <span>Send Message</span>
+              <span>{t("claim.message")}</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Send Message to Payor</DialogTitle>
+              <DialogTitle>{t("claim.message.title")}</DialogTitle>
               <DialogDescription>
-                Send a message directly to the insurance representative regarding this claim.
+                {t("claim.message.description")}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 pt-4">
               <Textarea
-                placeholder="Type your message here..."
+                placeholder={t("claim.message.placeholder")}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="min-h-[120px]"
@@ -77,7 +79,7 @@ export function StatusActions({ id, status }: ClaimDataProps) {
                 disabled={message.trim() === ""}
                 onClick={handleMessageSubmit}
               >
-                Send Message
+                {t("claim.message.send")}
               </Button>
             </div>
           </DialogContent>
@@ -87,12 +89,12 @@ export function StatusActions({ id, status }: ClaimDataProps) {
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" size="sm" className="flex items-center gap-2">
           <Printer className="h-4 w-4" />
-          <span>Print Details</span>
+          <span>{t("claim.print")}</span>
         </Button>
         
         <Button variant="outline" size="sm" className="flex items-center gap-2" onClick={copyReferenceNumber}>
           <Copy className="h-4 w-4" />
-          <span>Copy Ref ID</span>
+          <span>{t("claim.copy")}</span>
         </Button>
       </div>
     </div>

@@ -9,10 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RecentClaimsTable } from "@/components/Dashboard/RecentClaimsTable";
 import { Search } from "lucide-react";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 const TrackClaims = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   // Mock data for claims
   const allClaims = [
@@ -105,29 +107,29 @@ const TrackClaims = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-1">Track Claims</h1>
-              <p className="text-gray-600">Search and monitor the status of all your prior authorization requests</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-1">{t("claims.title")}</h1>
+              <p className="text-gray-600">{t("claims.subtitle")}</p>
             </div>
             <div className="mt-4 md:mt-0">
               <Button 
                 className="bg-portal-purple hover:bg-portal-purple/90"
                 onClick={() => navigate("/submit-claim")}
               >
-                New Prior Authorization
+                {t("claims.newAuth")}
               </Button>
             </div>
           </div>
           
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Search Claims</CardTitle>
+              <CardTitle>{t("claims.search.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative flex-grow">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
-                    placeholder="Search by patient name, reference ID, or service..."
+                    placeholder={t("claims.search.placeholder")}
                     className="pl-10"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -136,10 +138,10 @@ const TrackClaims = () => {
                 <div className="w-full md:w-64">
                   <Select defaultValue="all">
                     <SelectTrigger>
-                      <SelectValue placeholder="Filter by payor" />
+                      <SelectValue placeholder={t("claims.filter.payor")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Payors</SelectItem>
+                      <SelectItem value="all">{t("claims.all")}</SelectItem>
                       <SelectItem value="aetna">Aetna</SelectItem>
                       <SelectItem value="anthem">Anthem</SelectItem>
                       <SelectItem value="bcbs">Blue Cross Blue Shield</SelectItem>
@@ -156,10 +158,10 @@ const TrackClaims = () => {
           
           <Tabs defaultValue="all">
             <TabsList className="mb-6">
-              <TabsTrigger value="all">All Claims ({allClaims.length})</TabsTrigger>
-              <TabsTrigger value="pending">Pending ({pendingClaims.length})</TabsTrigger>
-              <TabsTrigger value="approved">Approved ({approvedClaims.length})</TabsTrigger>
-              <TabsTrigger value="denied">Denied ({deniedClaims.length})</TabsTrigger>
+              <TabsTrigger value="all">{t("claims.tabs.all")} ({allClaims.length})</TabsTrigger>
+              <TabsTrigger value="pending">{t("claims.tabs.pending")} ({pendingClaims.length})</TabsTrigger>
+              <TabsTrigger value="approved">{t("claims.tabs.approved")} ({approvedClaims.length})</TabsTrigger>
+              <TabsTrigger value="denied">{t("claims.tabs.denied")} ({deniedClaims.length})</TabsTrigger>
             </TabsList>
             
             <TabsContent value="all">

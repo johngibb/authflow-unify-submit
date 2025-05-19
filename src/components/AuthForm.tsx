@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface AuthFormProps {
   isLogin?: boolean;
@@ -19,6 +20,7 @@ export default function AuthForm({ isLogin = true }: AuthFormProps) {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +33,13 @@ export default function AuthForm({ isLogin = true }: AuthFormProps) {
         // In a real app, we'd validate credentials here
         localStorage.setItem("isLoggedIn", "true");
         toast({
-          title: "Login successful",
-          description: "Welcome back to Unified Payor Portal",
+          title: t("toast.login"),
+          description: t("toast.login.desc"),
         });
       } else {
         toast({
-          title: "Registration successful",
-          description: "Your account has been created",
+          title: t("toast.register"),
+          description: t("toast.register.desc"),
         });
       }
       navigate("/dashboard");
@@ -47,45 +49,43 @@ export default function AuthForm({ isLogin = true }: AuthFormProps) {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>{isLogin ? "Log in" : "Create an account"}</CardTitle>
+        <CardTitle>{isLogin ? t("auth.login.title") : t("auth.signup.title")}</CardTitle>
         <CardDescription>
-          {isLogin 
-            ? "Enter your credentials to access your account" 
-            : "Fill out the form to create your provider account"}
+          {isLogin ? t("auth.login.description") : t("auth.signup.description")}
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {!isLogin && (
             <div className="space-y-2">
-              <Label htmlFor="orgName">Organization Name</Label>
+              <Label htmlFor="orgName">{t("auth.orgName")}</Label>
               <Input 
                 id="orgName"
                 type="text" 
                 value={orgName} 
                 onChange={(e) => setOrgName(e.target.value)} 
-                placeholder="Enter your organization name"
+                placeholder={t("auth.orgName")}
                 required
               />
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input 
               id="email"
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
-              placeholder="Enter your email"
+              placeholder={t("auth.email")}
               required
             />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("auth.password")}</Label>
               {isLogin && (
                 <a href="#" className="text-sm text-portal-purple hover:underline">
-                  Forgot password?
+                  {t("auth.forgotPassword")}
                 </a>
               )}
             </div>
@@ -94,7 +94,7 @@ export default function AuthForm({ isLogin = true }: AuthFormProps) {
               type="password" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
-              placeholder="Enter your password"
+              placeholder={t("auth.password")}
               required
             />
           </div>
@@ -105,21 +105,21 @@ export default function AuthForm({ isLogin = true }: AuthFormProps) {
             className="w-full bg-portal-purple hover:bg-portal-purple/90"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : isLogin ? "Log in" : "Create account"}
+            {isLoading ? t("auth.processing") : isLogin ? t("auth.login.submit") : t("auth.signup.submit")}
           </Button>
           <div className="text-center text-sm">
             {isLogin ? (
               <span>
-                Don't have an account?{" "}
+                {t("auth.noAccount")}{" "}
                 <a href="/signup" className="text-portal-purple hover:underline">
-                  Sign up
+                  {t("auth.signup")}
                 </a>
               </span>
             ) : (
               <span>
-                Already have an account?{" "}
+                {t("auth.haveAccount")}{" "}
                 <a href="/login" className="text-portal-purple hover:underline">
-                  Log in
+                  {t("app.login")}
                 </a>
               </span>
             )}

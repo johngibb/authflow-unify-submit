@@ -27,7 +27,7 @@ export function StatusCard({ title, pending, approved, denied, total }: StatusCa
             <span className="text-muted-foreground">Pending</span>
             <span className="font-medium">{pending} ({pendingPercentage}%)</span>
           </div>
-          <Progress value={pendingPercentage} className="h-2 bg-gray-100" indicatorClassName="bg-amber-400" />
+          <Progress value={pendingPercentage} className="h-2 bg-gray-100" />
         </div>
         
         <div className="space-y-2">
@@ -35,7 +35,7 @@ export function StatusCard({ title, pending, approved, denied, total }: StatusCa
             <span className="text-muted-foreground">Approved</span>
             <span className="font-medium">{approved} ({approvedPercentage}%)</span>
           </div>
-          <Progress value={approvedPercentage} className="h-2 bg-gray-100" indicatorClassName="bg-green-500" />
+          <Progress value={approvedPercentage} className="h-2 bg-gray-100" />
         </div>
         
         <div className="space-y-2">
@@ -43,7 +43,7 @@ export function StatusCard({ title, pending, approved, denied, total }: StatusCa
             <span className="text-muted-foreground">Denied</span>
             <span className="font-medium">{denied} ({deniedPercentage}%)</span>
           </div>
-          <Progress value={deniedPercentage} className="h-2 bg-gray-100" indicatorClassName="bg-red-500" />
+          <Progress value={deniedPercentage} className="h-2 bg-gray-100" />
         </div>
       </CardContent>
     </Card>
